@@ -48,14 +48,14 @@ void DenseDepthFusion::depth_image_callback(const sensor_msgs::msg::Image & msg)
         return;
     }
     depth_image_ = cv_bridge::toCvCopy(msg, msg.encoding)->image;
-    depth_img_init_ = true;  
+    depth_img_init_ = true;  //TODO 初期化判定変える
 }
 
 void DenseDepthFusion::camera_info_callback(
   const sensor_msgs::msg::CameraInfo & camera_info_msg)
 {
   camera_info_ = camera_info_msg;
-  camera_info_init_ = true;
+  camera_info_init_ = true;　//TODO 初期化判定変える
 }
 
 //最近帽の画像画像
