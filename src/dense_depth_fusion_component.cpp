@@ -31,7 +31,7 @@ DenseDepthFusion::DenseDepthFusion(const rclcpp::NodeOptions & options)
         depth_image_topic, 10, [this](const sensor_msgs::msg::Image & depth_image_msg) {
         depth_image_callback(depth_image_msg);
     });
-    fused_image_publisher_ = this->create_publisher<sensor_msgs::msg::Image>("/fused_depth_image", 10);
+    dense_depth_publisher_ = this->create_publisher<sensor_msgs::msg::Image>("/fused_depth_image", 10);
 }
 
 void DenseDepthFusion::pointcloud_callback(const sensor_msgs::msg::PointCloud2 & pointcloud_msg)
@@ -48,14 +48,14 @@ void DenseDepthFusion::depth_image_callback(const sensor_msgs::msg::Image & msg)
         return;
     }
     depth_image_ = cv_bridge::toCvCopy(msg, msg.encoding)->image;
-    depth_img_init_ = true;  //TODO 初期化判定変える
+    depth_img_init_ = true;//TODO 初期化判定変える
 }
 
 void DenseDepthFusion::camera_info_callback(
   const sensor_msgs::msg::CameraInfo & camera_info_msg)
 {
   camera_info_ = camera_info_msg;
-  camera_info_init_ = true;　//TODO 初期化判定変える
+  camera_info_init_ = true;//TODO 初期化判定変える
 }
 
 //最近帽の画像画像
@@ -100,10 +100,8 @@ void DenseDepthFusion::synthesisDepth(const sensor_msgs::msg::PointCloud2 & poin
             if (!std::isfinite(*iter_z) || *iter_z <= 0.0f) {
                 continue; 
             }
-            // RCLCPP_INFO(this->get_logger(),"LiDAR depth value: %s", std::to_string(*iter_z).c_str());
             uint8_t pixel_value = depth_image_.at<uint8_t>(img_point_y, img_point_x);
             if (pixel_value > 0) {  
-                // RCLCPP_INFO(this->get_logger(),"iter_z : %s", std::to_string((*iter_z)*1000.0).c_str());
                 sum_squared_errors += ((*iter_z)*1000.0) / static_cast<double>(pixel_value);
                 projected_points_cnt++;
             }
@@ -124,8 +122,7 @@ void DenseDepthFusion::synthesisDepth(const sensor_msgs::msg::PointCloud2 & poin
     header.stamp = this->now();
     header.frame_id = camera_info_.header.frame_id;
     sensor_msgs::msg::Image::SharedPtr ros_image = cv_bridge::CvImage(header, "mono16", depth_mono16_image_).toImageMsg();
-    fused_image_publisher_->publish(*ros_image);
-    // RCLCPP_INFO(this->get_logger(), "Published fused depth image.");
+    dense_depth_publisher_->publish(*ros_image);
 }
 } //dense_depth_fusion
 #include <rclcpp_components/register_node_macro.hpp>

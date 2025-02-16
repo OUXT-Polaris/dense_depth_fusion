@@ -1,1 +1,13 @@
-
+<?xml version="1.0"?>
+<launch>
+  <arg name="pointcloud_topic"  default="/wamv/sensors/lidars/lidar_wamv_sensor/points"/>
+  <arg name="camera_info_topic" default="/wamv/sensors/cameras/ball_shooter_camera_sensor/camera_info"/>
+  <arg name="depth_image_topic" default="/depth_anything_v1/depth"/>
+  <node_container pkg="rclcpp_components" exec="component_container" name="dense_depth_fusion_container" namespace="dense_depth_fusion" >
+    <composable_node pkg="dense_depth_fusion" plugin="dense_depth_fusion::DenseDepthFusion" name="dense_depth_fusion_node" namespace="dense_depth_fusion">
+      <param name="pointcloud_topic" value="$(var pointcloud_topic)"/>
+      <param name="camera_info_topic" value="$(var camera_info_topic)"/>
+      <param name="depth_image_topic" value="$(var depth_image_topic)"/>
+    </composable_node>
+  </node_container>
+</launch>

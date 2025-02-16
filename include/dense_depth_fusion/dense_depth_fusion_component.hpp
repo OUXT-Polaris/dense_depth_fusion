@@ -31,7 +31,7 @@ private:
     rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr pointcloud_sub_;
     rclcpp::Subscription<sensor_msgs::msg::CameraInfo>::SharedPtr camera_info_sub_;
     rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr depth_image_sub_;
-    rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr fused_image_publisher_;
+    rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr dense_depth_publisher_;
 
     cv::Mat depth_image_ ;
     sensor_msgs::msg::CameraInfo camera_info_;
