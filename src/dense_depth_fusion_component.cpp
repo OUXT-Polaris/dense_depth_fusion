@@ -31,7 +31,7 @@ DenseDepthFusion::DenseDepthFusion(const rclcpp::NodeOptions & options)
         depth_image_topic, 10, [this](const sensor_msgs::msg::Image & depth_image_msg) {
         depth_image_callback(depth_image_msg);
     });
-    dense_depth_publisher_ = this->create_publisher<sensor_msgs::msg::Image>("/fused_depth_image", 10);
+    dense_depth_publisher_ = this->create_publisher<sensor_msgs::msg::Image>("/dense_depth_image", 10);
 }
 
 void DenseDepthFusion::pointcloud_callback(const sensor_msgs::msg::PointCloud2 & pointcloud_msg)

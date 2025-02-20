@@ -11,7 +11,7 @@ Create density depth information from relative distance depth images and Lidar d
 # parameters
 |Name|Type|Description|default|
 |---|---|---|---|
-|pointcloud_topic |string|pc topic name||
+|pointcloud_topic |string|point cloud topic name||
 |camera_info_topic|string|cam info topic name||
 |depth_image_topic|string|depth img topic name||
 
@@ -37,3 +37,10 @@ ros2 launch dense_depth_fusion dense_depth_fusion_launch.xml
 ```
 
 [Screencast from 12-11-2024 10:35:15 PM.webm](https://github.com/user-attachments/assets/d6c10fa9-9ae9-4d96-b98f-fee4c6cd3889)
+
+
+# Visualization of results
+
+https://github.com/OUXT-Polaris/depthimage_to_pointcloud2
+```
+```
